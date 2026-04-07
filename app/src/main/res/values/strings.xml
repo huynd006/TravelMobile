@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MIDTERM</string>
+    <string name="title_activity_course">Course</string>
+    <string name="title_activity_course_details">CourseDetailsActivity</string>
+    <string name="title_activity_update_course">UpdateCourse</string>
+    <string name="title_activity_screen">Screen</string>
+    <string name="title_activity_sign_in">SignIn</string>
+    <string name="title_activity_sign_up">SignUp</string>
+    <string name="title_activity_start_screen">StartScreen</string>
+    <string name="title_activity_note_repository">NoteRepository</string>
+    <string name="title_activity_note">Note</string>
+    <string name="title_activity_update_note_screen">UpdateNoteScreen</string>
+    <string name="title_activity_update_note_repository">UpdateNoteRepository</string>
+    <string name="title_activity_view_notes_screen">ViewNotesScreen</string>
+</resources>
