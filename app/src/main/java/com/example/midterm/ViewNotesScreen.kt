@@ -39,11 +39,27 @@ import com.google.firebase.firestore.FirebaseFirestore
 fun ViewNotesScreen(navController: NavHostController) {
     val context = LocalContext.current
     val currentUser = FirebaseAuth.getInstance().currentUser
-    val isAdmin = currentUser?.email == "duchuy@gmail.com"
     
+    var isAdmin by remember { mutableStateOf(false) }
+    var isCheckingRole by remember { mutableStateOf(true) }
     var notes by remember { mutableStateOf(listOf<Note>()) }
     var isLoading by remember { mutableStateOf(true) }
     var selectedNoteForDetail by remember { mutableStateOf<Note?>(null) }
+
+    // Kiểm tra quyền từ Firestore
+    LaunchedEffect(currentUser) {
+        if (currentUser != null) {
+            FirebaseFirestore.getInstance().collection("users")
+                .document(currentUser.uid).get()
+                .addOnSuccessListener { doc ->
+                    isAdmin = doc.getString("role") == "admin"
+                    isCheckingRole = false
+                }
+                .addOnFailureListener { isCheckingRole = false }
+        } else {
+            isCheckingRole = false
+        }
+    }
 
     LaunchedEffect(Unit) {
         FirebaseFirestore.getInstance()
@@ -79,7 +95,7 @@ fun ViewNotesScreen(navController: NavHostController) {
                 .background(Brush.verticalGradient(listOf(BgTop, BgBottom)))
                 .padding(innerPadding)
         ) {
-            if (isLoading) {
+            if (isLoading || isCheckingRole) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center), color = PrimaryPurple)
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
@@ -145,7 +161,7 @@ fun NoteItemWithAuth(note: Note, isAdmin: Boolean, onDetail: () -> Unit, onEdit:
                 Column(modifier = Modifier.weight(1f)) {
                     Text(text = note.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = note.description, style = MaterialTheme.typography.bodySmall, color = Color.Gray, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    Text(text = note.description, style = MaterialTheme.typography.bodySmall, color = SoftText, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 }
             }
             

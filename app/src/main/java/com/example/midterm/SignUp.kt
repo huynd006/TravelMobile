@@ -72,7 +72,6 @@ fun SignUp(navController: NavHostController) {
                     .padding(horizontal = 24.dp, vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Thay thế Logo bằng file anh.png
                 Box(
                     modifier = Modifier
                         .size(90.dp)
@@ -186,10 +185,20 @@ fun SignUp(navController: NavHostController) {
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     val userId = auth.currentUser?.uid
-                                    db.collection("users").document(userId!!).set(mapOf("uid" to userId, "email" to username))
-                                    navController.navigate(Screen.Home.route) {
-                                        popUpTo(Screen.Signup.route) { inclusive = true }
-                                    }
+                                    
+                                    // Mặc định role khi đăng ký là "user"
+                                    val userMap = mapOf(
+                                        "uid" to userId,
+                                        "email" to username,
+                                        "role" to "user"
+                                    )
+
+                                    db.collection("users").document(userId!!).set(userMap)
+                                        .addOnSuccessListener {
+                                            navController.navigate(Screen.Home.route) {
+                                                popUpTo(Screen.Signup.route) { inclusive = true }
+                                            }
+                                        }
                                 } else {
                                     Toast.makeText(context, "Đăng ký thất bại", Toast.LENGTH_SHORT).show()
                                 }

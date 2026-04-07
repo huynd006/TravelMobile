@@ -62,6 +62,8 @@ import com.example.midterm.ui.theme.SecondaryBlue
 import com.example.midterm.ui.theme.SoftText
 import com.google.firebase.firestore.FirebaseFirestore
 
+val BorderSoft: Color = TODO()
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdateNoteScreen(

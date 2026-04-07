@@ -12,4 +12,5 @@
     <string name="title_activity_update_note_screen">UpdateNoteScreen</string>
     <string name="title_activity_update_note_repository">UpdateNoteRepository</string>
     <string name="title_activity_view_notes_screen">ViewNotesScreen</string>
+    <string name="title_activity_user">User</string>
 </resources>
